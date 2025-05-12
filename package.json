@@ -1,0 +1,15 @@
+{
+  "name": "hanul-team-project",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "client", "server"
+  ],
+  "scripts": {
+    "client": "yarn workspace client dev",
+    "server": "yarn workspace server start"
+  }
+}

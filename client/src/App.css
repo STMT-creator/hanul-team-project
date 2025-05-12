@@ -1,0 +1,21 @@
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.place-picker-container {
+  padding: 20px;
+}
+
+gmp-map {
+  display: block;
+  height: 100%;
+  width: 100%;
+}
+.mouse_pointer:hover {
+  cursor: pointer;
+}
+
+@import "tailwindcss";
