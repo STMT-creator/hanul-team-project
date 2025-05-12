@@ -19,24 +19,27 @@ const Reviews = ({ reviews }) => {
         {reviews.map((rv, i) => (
           <div
             key={i}
-            className={`border border-dotted rounded-xl p-2 ${
+            className={`border flex border-dotted rounded-xl p-2 ${
               seeAll == false ? 'max-h-50 text-ellipsis' : 'max-h-full'
             }`}
           >
-            <p>
-              <strong>이름</strong> : {rv.author_name}
-            </p>
-            <p>
-              <strong>사용자 평점</strong> : {rv.rating}☆
-            </p>
-            <div>
-              <strong>사용자 평가</strong> <br />
-              <p
-                className={`mouse_pointer indent-2 ${seeAll[i] ? 'line-clamp-none' : 'line-clamp-2'}`}
-                onClick={() => handleText(i)}
-              >
-                {rv.text}
-              </p>
+            <div className='min-w-50 flex flex-col items-center'>
+              <div><strong>사용자명</strong> : {rv.author_name}</div>
+              <img src={`${rv.profile_photo_url}`} alt={`${rv.author_name}`} className='w-20' />
+            </div>
+            <div className='max-w-118'>
+              <div>
+                <strong>사용자 평점</strong> : {rv.rating}☆
+              </div>
+              <div>
+                <strong>사용자 평가</strong> <br />
+                <p
+                  className={`mouse_pointer indent-2 ${seeAll[i] ? 'line-clamp-none' : 'line-clamp-2'}`}
+                  onClick={() => handleText(i)}
+                >
+                  {rv.text}
+                </p>
+              </div>
             </div>
           </div>
         ))}

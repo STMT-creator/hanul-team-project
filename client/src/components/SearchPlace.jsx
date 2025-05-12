@@ -43,30 +43,26 @@ const SearchPlace = () => {
 
       if ('geolocation' in navigator) {
         navigator.geolocation.getCurrentPosition(
-          function (position) {
+          async function (position) {
             let latitude = position.coords.latitude;
             let longitude = position.coords.longitude;
 
             console.log('현재 위치: 위도=' + latitude + ', 경도=' + longitude);
+
             const location = new window.google.maps.LatLng(latitude, longitude);
             // console.log(location.lat()) // 위도
             // console.log(location.lng()) // 경도
-            const request = {
-              fields: ['displayName', 'location', 'businessStatus'],
-              location: location,
-              radius: 1000,
-              type: ['restaurant'],
-            };
-            axios
+
+            await axios
               .get('http://localhost:3000', {
                 withCredentials: true,
                 headers: {
-                  location: location
-                }
+                  location: location,
+                },
               })
               .then((res) => {
                 // console.log(res.data);
-                setNearPlaces(res.data)
+                setNearPlaces(res.data);
               })
               .catch((err) => {
                 console.log(err);
@@ -90,6 +86,7 @@ const SearchPlace = () => {
 
         if (!place || !place.location) {
           console.log('선택된 장소에 위치 정보가 없습니다.');
+          setPlaceDetails(null);
           return;
         }
 
@@ -169,14 +166,14 @@ const SearchPlace = () => {
     };
   }, []);
 
-  // console.log(placeDetails);
   console.log(
-    placeDetails
-      ? '음식점:' + placeDetails.types.includes('restaurant') ||
-          '음식점:' + placeDetails.types.includes('food')
-      : ''
+    placeDetails !== null &&
+      (placeDetails.types.includes('restaurant') || placeDetails.types.includes('food'))
+      ? '음식점:' + true
+      : '음식점:' + false
   );
-  console.log(nearPlaces)
+  // console.log(placeDetails);
+  // console.log(nearPlaces);
   // console.log(placeDetails ? placeDetails.geometry.location.lat() : "")
   // console.log(placeDetails ? placeDetails.geometry.location.lng() : "")
   return (
@@ -221,9 +218,28 @@ const SearchPlace = () => {
           <GoogleReviews reviews={placeDetails.reviews} />
         </div>
       )}
-      {/* {nearPlaces && nearPlaces !== '' && (
-
-      )} */}
+      {!placeDetails && nearPlaces && nearPlaces !== '' && (
+        <div>
+          <h2 className="text-3xl font-bold">주변 음식점</h2>
+          <div className="flex gap-4 container mx-auto max-w-5xl overflow-x-auto my-5">
+            {nearPlaces.map((np, i) => (
+              <div
+                className="container max-w-2xl mx-auto text-start border border-dotted rounded-xl p-2"
+                key={i}
+              >
+                <div className="flex gap-2 align-center justify-center">
+                  <strong className="w-40">{np.name}</strong>
+                  <img src={`${np.photos}`} alt="" />
+                  <div>
+                    <p>{np.rating ? np.rating + '☆' : '평가 없음'}</p>
+                    <p className="w-40">{np.vicinity ? np.vicinity : '주소지 미제공'}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
     </>
   );
 };
