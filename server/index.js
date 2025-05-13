@@ -18,11 +18,6 @@ app.use(
 app.get('/', (req, res) => {
   const lat = req.headers.location.slice(1, -1).split(',')[0].trim();
   const lng = req.headers.location.slice(1, -1).split(',')[1].trim();
-  const location = {lat, lng}
-  // console.log(lat)
-  // console.log(lng)
-  // console.log(location)
-  // res.json(location)
   try {
     const places = axios
       .get(
@@ -32,14 +27,12 @@ app.get('/', (req, res) => {
         }
       )
       .then((results) => {
-        // console.log(results.data.results);
-        res.status(200).json(results.data.results)
+        res.status(200).json(results.data.results);
       })
       .catch((err) => {
-        // console.log('요청실패');
         res.status(500).json({
-          msg: 'place 요청 실패'
-        })
+          msg: 'place 요청 실패',
+        });
       });
   } catch (err) {
     console.log(err);

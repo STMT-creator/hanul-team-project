@@ -50,8 +50,6 @@ const SearchPlace = () => {
             console.log('현재 위치: 위도=' + latitude + ', 경도=' + longitude);
 
             const location = new window.google.maps.LatLng(latitude, longitude);
-            // console.log(location.lat()) // 위도
-            // console.log(location.lng()) // 경도
 
             await axios
               .get('http://localhost:3000', {
@@ -61,7 +59,6 @@ const SearchPlace = () => {
                 },
               })
               .then((res) => {
-                // console.log(res.data);
                 setNearPlaces(res.data);
               })
               .catch((err) => {
@@ -172,10 +169,7 @@ const SearchPlace = () => {
       ? '음식점:' + true
       : '음식점:' + false
   );
-  // console.log(placeDetails);
-  // console.log(nearPlaces);
-  // console.log(placeDetails ? placeDetails.geometry.location.lat() : "")
-  // console.log(placeDetails ? placeDetails.geometry.location.lng() : "")
+
   return (
     <>
       <div slot="control-block-start-inline-start" className="place-picker-container">
